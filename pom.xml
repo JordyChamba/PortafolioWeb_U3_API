@@ -30,6 +30,11 @@
     </dependencyManagement>
 
     <dependencies>
+            <!-- JAXB for XML support -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-rest-jaxb</artifactId>
+        </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-rest-jsonb</artifactId>

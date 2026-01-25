@@ -3,6 +3,7 @@ package uce.edu.web.api.Interfaces;
 import java.util.List;
 
 import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PATCH;
@@ -11,9 +12,11 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import uce.edu.web.api.Application.EstudianteService;
 import uce.edu.web.api.Domain.Estudiante;
+import jakarta.ws.rs.Produces;
 
 @Path("/estudiantes")
 public class EstudianteResource {
@@ -22,12 +25,14 @@ public class EstudianteResource {
 
     @GET
     @Path("/")
+    @Consumes(MediaType.APPLICATION_JSON)
     public List<Estudiante> consultarTodos() {
         return this.estudianteService.listarTodos();
     }
 
     @GET
     @Path("/{id}")
+    @Produces(MediaType.APPLICATION_XML)
     public Estudiante consultarTodosId(@PathParam("id") Integer id) {
         return this.estudianteService.listarPorId(id);
     }
