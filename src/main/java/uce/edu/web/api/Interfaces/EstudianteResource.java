@@ -20,37 +20,37 @@ public class EstudianteResource {
     private EstudianteService estudianteService;
 
     @GET
-    @Path("/todos")
+    @Path("/")
     public List<Estudiante> consultarTodos() {
         return this.estudianteService.listarTodos();
     }
 
     @GET
-    @Path("/todos/{id}")
+    @Path("/{id}")
     public Estudiante consultarTodosId(@PathParam("id") Integer id) {
         return this.estudianteService.listarPorId(id);
     }
 
     @POST
-    @Path("/guardar")
+    @Path("/")
     public void guardarEstudiante(Estudiante estudiante) {
         this.estudianteService.crearEstudiante(estudiante);
     }
 
     @PUT
-    @Path("/actualizar/{id}")
+    @Path("/{id}")
     public void actualizarEstudiante(@PathParam("id") Integer id, Estudiante estudiante) {
         this.estudianteService.actualizarEstudiante(id, estudiante);
     }
 
     @PATCH
-    @Path("/actualizarParcial/{id}")
+    @Path("/{id}")
     public void actualizarParcialEstudiante(@PathParam("id") Integer id, Estudiante estudiante) {
         this.estudianteService.actualizarParcialEstudiante(id, estudiante);
     }
 
     @DELETE
-    @Path("/eliminar/{id}")
+    @Path("/{id}")
     public void eliminar(@PathParam("id") Integer id) {
         this.estudianteService.eliminar(id);
     }
