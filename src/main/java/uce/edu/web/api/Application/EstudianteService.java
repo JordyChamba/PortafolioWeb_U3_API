@@ -32,6 +32,8 @@ public class EstudianteService {
         estu.setNombre(estudiante.getNombre());
         estu.setApellido(estudiante.getApellido());
         estu.setFechaNacimiento(estudiante.getFechaNacimiento());
+        estu.setGenero(estudiante.getGenero());
+        estu.setProvincia(estudiante.getProvincia());
     }
 
     @Transactional
@@ -46,10 +48,20 @@ public class EstudianteService {
         if (estudiante.getFechaNacimiento() == null) {
             estu.setFechaNacimiento(estudiante.getFechaNacimiento());
         }
+        if (estudiante.getGenero() == null) {
+            estu.setGenero(estudiante.getGenero());
+        }
+        if (estudiante.getProvincia() == null) {
+            estu.setProvincia(estudiante.getProvincia());
+        }
     }
 
     @Transactional
     public void eliminar(Integer id) {
         this.estudianteRepository.deleteById(id.longValue());
+    }
+
+    public List<Estudiante> listarPorProvincia(String provincia, String genero) {
+        return this.estudianteRepository.find("provincia =?1 and genero =? 2", provincia, genero).list();
     }
 }

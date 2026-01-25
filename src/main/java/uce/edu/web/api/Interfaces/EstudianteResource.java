@@ -10,6 +10,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.QueryParam;
 import uce.edu.web.api.Application.EstudianteService;
 import uce.edu.web.api.Domain.Estudiante;
 
@@ -53,4 +54,14 @@ public class EstudianteResource {
     public void eliminar(@PathParam("id") Integer id) {
         this.estudianteService.eliminar(id);
     }
+
+    // ------------------------------------------------------------
+
+    @GET
+    @Path("/listarProvincia")
+    public List<Estudiante> listarPorProvincia(@QueryParam("provincia") String provincia,
+            @QueryParam("genero") String genero) {
+        return this.estudianteService.listarPorProvincia(provincia, genero);
+    }
+
 }
