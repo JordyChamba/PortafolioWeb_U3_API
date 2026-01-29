@@ -30,7 +30,7 @@ public class Estudiante extends PanacheEntityBase {
     private String genero;
 
     @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    public List<Hijo> hijo;
+    public List<Hijo> hijos;
 
     public Integer getId() {
         return id;

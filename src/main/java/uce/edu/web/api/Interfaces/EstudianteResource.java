@@ -12,12 +12,15 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 import uce.edu.web.api.Application.EstudianteService;
 import uce.edu.web.api.Application.HijoService;
 import uce.edu.web.api.Application.represetation.EstudianteRepresentation;
-import uce.edu.web.api.Domain.Hijo;
+import uce.edu.web.api.Application.represetation.HijoRepresentation;
+import uce.edu.web.api.Application.represetation.LinkDto;
 import jakarta.ws.rs.Produces;
 
 @Path("/estudiantes")
@@ -31,15 +34,18 @@ public class EstudianteResource {
     @Inject
     private HijoService hijoService;
 
+    @Context
+    private UriInfo uriInfo;
+
     @GET
     public List<EstudianteRepresentation> consultarTodos() {
-        return estudianteService.listarTodos();
+        return this.estudianteService.listarTodos().stream().map(estudiante -> addLinks(estudiante)).toList();
     }
 
     @GET
     @Path("/{id}")
     public EstudianteRepresentation consultarPorId(@PathParam("id") Integer id) {
-        return estudianteService.consulEstudiantePorId(id);
+        return this.addLinks(this.estudianteService.consulEstudiantePorId(id));
     }
 
     @POST
@@ -85,8 +91,17 @@ public class EstudianteResource {
     @GET
     @Path("/{id}/hijos")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Hijo> buscarHijosPorEstudiantes(@PathParam("id") Integer id) {
+    public List<HijoRepresentation> buscarHijosPorEstudiante(@PathParam("id") Integer id) {
         return this.hijoService.buscarPorIdEstudiante(id);
     }
 
+    private EstudianteRepresentation addLinks(EstudianteRepresentation estudiante) {
+        String self = this.uriInfo.getBaseUriBuilder().path("estudiantes").path(estudiante.getId().toString()).build()
+                .toString();
+        String hijos = this.uriInfo.getBaseUriBuilder().path("estudiantes").path(estudiante.getId().toString())
+                .path("hijos").build().toString();
+        estudiante.setLinks(List.of(new LinkDto(self, "self"), new LinkDto(hijos, "hijos")));
+        return estudiante;
+
+    }
 }
