@@ -44,8 +44,12 @@ public class EstudianteResource {
 
     @GET
     @Path("/{id}")
-    public EstudianteRepresentation consultarPorId(@PathParam("id") Integer id) {
-        return this.addLinks(this.estudianteService.consulEstudiantePorId(id));
+    public Response consultarPorId(@PathParam("id") Integer id) {
+        EstudianteRepresentation erp = this.estudianteService.consulEstudiantePorId(id);
+        if (erp == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(this.addLinks(erp)).build();
     }
 
     @POST
@@ -64,15 +68,17 @@ public class EstudianteResource {
 
     @PATCH
     @Path("/{id}")
-    public void actualizarParcial(@PathParam("id") Integer id,
+    public Response actualizarParcial(@PathParam("id") Integer id,
             EstudianteRepresentation estudiante) {
-        estudianteService.actualizarEstudianteParcial(id, estudiante);
+        this.estudianteService.actualizarEstudianteParcial(id, estudiante);
+        return Response.noContent().build();
     }
 
     @DELETE
     @Path("/{id}")
-    public void eliminar(@PathParam("id") Integer id) {
-        estudianteService.eliminarEstudiante(id);
+    public Response eliminar(@PathParam("id") Integer id) {
+        this.estudianteService.eliminarEstudiante(id);
+        return Response.noContent().build();
     }
 
     // ------------------------------------------------------------
